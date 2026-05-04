@@ -38,6 +38,13 @@ if 'matches' not in st.session_state:
 if 'scraper' not in st.session_state:
     st.session_state.scraper = None
 
+
+def get_scraper():
+    """Create the scraper lazily so the app can load before the driver is needed."""
+    if st.session_state.scraper is None:
+        st.session_state.scraper = FotMobScraper()
+    return st.session_state.scraper
+
 # Scrape buttons
 col_btn1, col_btn2, col_btn3 = st.columns(3)
 
@@ -51,15 +58,12 @@ with col_btn3:
     scrape_season_btn = st.button("📅 Scrape Matches & Stats (Season)", type="primary", width='stretch', help="Warning: This will take a long time!")
 
 # Initialize scraper if needed
-if st.session_state.scraper is None:
-    st.session_state.scraper = FotMobScraper()
-
 # Handle button clicks
 if scrape_matches_btn:
     try:
         with st.spinner("Starting scraper..."):
             matches = run_scraper_with_progress(
-                st.session_state.scraper.get_matches,
+                get_scraper().get_matches,
                 season, round_num,
                 progress_divisor=100
             )
@@ -76,7 +80,7 @@ if scrape_stats_btn:
     try:
         with st.spinner("Starting scraper (this may take a while)..."):
             matches_with_stats = run_scraper_with_progress(
-                st.session_state.scraper.get_matches_with_stats,
+                get_scraper().get_matches_with_stats,
                 season, round_num,
                 progress_divisor=100
             )
@@ -93,7 +97,7 @@ if scrape_season_btn:
     try:
         with st.spinner("Starting season scraper (this will take a LONG time)..."):
             season_stats = run_scraper_with_progress(
-                st.session_state.scraper.get_season_stats,
+                get_scraper().get_season_stats,
                 season,
                 progress_divisor=100
             )

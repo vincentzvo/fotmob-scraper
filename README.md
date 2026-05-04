@@ -16,9 +16,9 @@ A powerful Python-based web scraper for extracting detailed football match data 
 ## 🛠️ Prerequisites
 
 -   **Python 3.8+**
--   **Google Chrome** (The scraper uses Selenium with a headless Chrome browser)
+-   **Microsoft Edge** (The scraper uses Selenium with a headless Edge browser)
 -   **Internet Connection**
--   *Note: The `chromedriver` is automatically managed and installed by the application, so no manual setup is required.*
+-   *Note: The `msedgedriver` is automatically managed and installed by the application, so no manual setup is required.*
 
 ## 📦 Installation
 
